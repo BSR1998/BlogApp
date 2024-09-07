@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/Head") %>
+    <title>Home Page</title>
+</head>
+<body>
+    <%- include("./partials/Nav") %>
+    
+    <% if (locals.blog) { %>
+      <div class="container">
+
+        <h2><%= blog.title %></h2>
+        <img src=<%= blog.coverImage %>>
+        <pre> <%= blog.disc %> </pre>
+
+    </div>
+     
+    <% } %>
+    
+    <% if (locals.user) { %>
+    <div class="container">
+      <img src= <%= user.profileImage %> width = "80px"/>
+        <h4> Created by : <%= user.fullName %></h4>
+
+    </div>
+    <% } %>
+
+   
+
+    
+
+    <% if (locals.user) { %>
+        <form class="container mt-4" method="post" action="/comment/<%= blog._id %>">
+            <div class="mb-3">
+              <label for="comment" class="form-label">Comment</label>
+              <input type="textarea"  placeholder="Enter you thougths" name="content" required class="form-control" id="comment" aria-describedby="comment">            
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+          <% if (locals.comments) { %>
+            <h5>Comments(<%= comments.length %>)</h5>
+                  <% comments.forEach(comment => { %>
+                      <div class="container">
+                      <h6>Created by <%= comment.createdBy.fullName %> </h6>
+                      <img src=<%= comment.createdBy.profileImage %> width = "50px"/>
+                      <pre><%= comment.content %> </pre>
+                    </div>
+                  <% }) %>
+          <% } %>
+    <% } %>
+    <%- include("./partials/Script") %>
+</body>
+</html>
